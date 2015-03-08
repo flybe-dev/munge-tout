@@ -4,53 +4,52 @@
   (:require [munge-tout.util :refer :all]
             [munge-tout.generics :refer :all]))
 
-(def ignorable? #{:class})
-
 (defn leave?
   [v]
   (or (instance? Boolean v)
       (number? v)
       (string? v)))
 
-(declare from-java)
-(defn from-java*
+(declare from-java*)
+(defn from-java
   ([jovo]
-   (from-java* jovo {}))
+   (from-java jovo {}))
   ([jovo conf]
-   (if (leave? jovo)
-     jovo
-     (into {}
-           (for
-             [[k v] (bean jovo) :when (not (ignorable? k))]
-             [(keyword (camel-case-to-hyphenated (name k))) (from-java v)])))))
+   (let [ignorable? (into #{:class} (:exclusions conf))]
+     (if (leave? jovo)
+       jovo
+       (into {}
+             (for
+               [[k v] (bean jovo) :when (not (ignorable? k))]
+               [(keyword (camel-case-to-hyphenated (name k))) (from-java* v)]))))))
 
-(defprotocol Mungeable (from-java [jovo]))
+(defprotocol Mungeable (from-java* [jovo]))
 
 (extend-protocol Mungeable
   nil
-  (from-java
+  (from-java*
     [_]
     nil)
   Enum
-  (from-java
+  (from-java*
     [enum]
     (.name enum))
   Map
-  (from-java
+  (from-java*
     [m]
     (into {} m))
   Set
-  (from-java
+  (from-java*
     [s]
     (into #{} s))
   Iterable
-  (from-java
+  (from-java*
     [s]
     (map from-java (seq s)))
   Object
-  (from-java
+  (from-java*
     [jovo]
-    (from-java* jovo)))
+    (from-java jovo)))
 
 ;; Reverse magic mapping from a map into a java class.
 
