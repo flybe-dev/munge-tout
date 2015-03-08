@@ -1,0 +1,25 @@
+# munge-tout
+
+A Clojure/Java interop library for converting clojure data structures into
+Java object graphs and back again.  Unlike currently available bean maniupulation
+libraries, it works with any Java class and allows custom object construction in the
+general case, or for a specific object property.  Behaviour can be extended through 
+multimethods or provided as configuration.
+
+Supports Java generics and arrays, and has built-in support for Java primitives and the
+Collections classes `List` `Map` and `Set`.
+
+## Usage
+
+Config options:
+      :strict-mode if true, `to-java` will throw an `IllegalArgumentException` when one of the properties in
+  an input map cannot be located in the java class.
+      :accessible-hack if true, will break encapsulation and set private properties of the target class.  Use
+      this for example, for classes that do not conform to the bean spec.
+
+## License
+
+Copyright © 2015 Flybe Group plc
+
+Distributed under the Eclipse Public License either version 1.0 or (at
+your option) any later version.
