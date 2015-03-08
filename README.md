@@ -9,6 +9,8 @@ multimethods or provided as configuration.
 Supports Java generics and arrays, and has built-in support for Java primitives and the
 Collections classes `List` `Map` and `Set`.
 
+![alt tag](resources/munge-tout.png)
+
 ## Usage
 
 ```
