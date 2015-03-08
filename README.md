@@ -12,6 +12,7 @@ Collections classes `List` `Map` and `Set`.
 ## Usage
 
 ```
+(require '[munge-tout.core :refer [from-java to-java]])
 (import java.awt.Point)
 (def p1 (Point. 0 0))
 (def p1-map (from-java p1 {:exclusions [:location]}))
