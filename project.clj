@@ -1,4 +1,4 @@
-(defproject munge-tout "0.1.0"
+(defproject munge-tout "0.1.1"
             :description "Convert Java object graphs to/from clojure data structures."
             :url "http://github.com/flybe/munge-tout"
             :license {:name "Eclipse Public License"
