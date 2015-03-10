@@ -1,5 +1,7 @@
 # munge-tout
 
+[![Continuous Integration status](https://travis-ci.org/flybe-dev/munge-tout.svg?branch=master)](http://travis-ci.org/munge-tout)
+
 A Clojure/Java interop library for converting clojure data structures into
 Java object graphs and back again.  Unlike currently available bean maniupulation
 libraries, it works with any Java class and allows custom object construction in the
