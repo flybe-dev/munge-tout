@@ -25,15 +25,15 @@ Collections classes `List` `Map` and `Set`.
 => #<Point java.awt.Point[x=10,y=0]>
 ```
 
-### from-java conf
+### Options: from-java
 
-> `:exclusions` properties of the java class to omit from the map
+> `:exclusions` list of Java class property names to omit from the map
 
-### to-java conf
+### Options: to-java
  
  > `:strict-mode` if true, `to-java` will throw an `IllegalArgumentException` when one of the properties in an input map cannot be located in the java class.
  
-> `:accessible-hack` if true, will break encapsulation and set private properties of the target class.  Use this for example, for classes that do not conform to the bean spec.
+> `:accessible-hack` breaks encapsulation and sets private properties of the target class.  Use this for example, for classes that do not conform to the bean spec.
 
 ## License
 

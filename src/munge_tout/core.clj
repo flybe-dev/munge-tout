@@ -10,55 +10,46 @@
       (number? v)
       (string? v)))
 
+(declare from-java*)
 (defn from-java
-  [jovo]
-  (from-java jovo {}))
+  ([jovo]
+   (from-java jovo {}))
+  ([jovo conf]
+   (from-java* jovo conf)))
 
-(defprotocol Mungeable (from-java [jovo] [jovo conf]))
+(defprotocol Mungeable (from-java* [jovo conf]))
 
 (extend-protocol Mungeable
   nil
-  (from-java
-    ([_ _]
-     nil)
-    ([_] nil))
+  (from-java*
+    [_ _]
+    nil)
   Enum
-  (from-java
-    ([enum _]
-     (.name enum))
-    ([enum]
-      (from-java enum {})))
+  (from-java*
+    [enum _]
+    (.name enum))
   Map
-  (from-java
-    ([m _]
-     (into {} m))
-    ([m]
-      (from-java m {})))
+  (from-java*
+    [m _]
+    (into {} m))
   Set
-  (from-java
-    ([s _]
-     (into #{} s))
-    ([s]
-      (from-java s {})))
+  (from-java*
+    [s _]
+    (into #{} s))
   Iterable
-  (from-java
-    ([s _]
-     (map from-java (seq s)))
-    ([s]
-      (from-java s {})))
+  (from-java*
+    [s _]
+    (map from-java (seq s)))
   Object
-  (from-java
-    ([jovo conf]
-     (let [ignorable? (into #{:class} (:exclusions conf))]
-       (if (leave? jovo)
-         jovo
-         (into {}
-               (for
-                 [[k v] (bean jovo) :when (not (ignorable? k))]
-                 [(keyword (camel-case-to-hyphenated (name k))) (from-java v conf)])))))
-    ([jovo]
-     (from-java jovo {}))))
-
+  (from-java*
+    [jovo conf]
+    (let [ignorable? (into #{:class} (:exclusions conf))]
+      (if (leave? jovo)
+        jovo
+        (into {}
+              (for
+                [[k v] (bean jovo) :when (not (ignorable? k))]
+                [(keyword (camel-case-to-hyphenated (name k))) (from-java* v conf)]))))))
 
 ;; Reverse magic mapping from a map into a java class.
 
