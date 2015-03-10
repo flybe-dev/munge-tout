@@ -9,6 +9,8 @@ multimethods or provided as configuration.
 Supports Java generics and arrays, and has built-in support for Java primitives and the
 Collections classes `List` `Map` and `Set`.
 
+[![Clojars Project](http://clojars.org/munge-tout/latest-version.svg)](http://clojars.org/munge-tout)
+
 ## Usage
 
 ```
