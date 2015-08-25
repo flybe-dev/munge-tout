@@ -30,6 +30,20 @@
              a-set)))
     (is (set? (:items munged)))))
 
+(deftest munge-sorted-sets
+  (let [a-set #{"Gödel" "Schiller" "Bach"}
+        quux (to-java Quux {:sorted-items a-set} munge-conf)
+        munged (from-java quux)]
+    (is (= (:sorted-items munged
+             a-set)))
+    (is (set? (:sorted-items munged)))
+    (is (= "Bach"
+          (.first (.getSortedItems quux))))
+    (is (= "Schiller"
+           (.last (.getSortedItems quux))))
+    (is (= (apply sorted-set a-set)
+           (:sorted-items munged)))))
+
 
 (deftest munge-lists
   (let [a-list ["eins" "zwei" "drei"]

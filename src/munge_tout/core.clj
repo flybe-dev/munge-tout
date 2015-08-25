@@ -1,6 +1,6 @@
 (ns munge-tout.core
   (:import (java.beans Introspector)
-           (java.util List ArrayList HashSet Set Map HashMap))
+           (java.util List ArrayList HashSet Set Map HashMap TreeSet SortedSet))
   (:require [munge-tout.util :refer :all]
             [munge-tout.generics :refer :all]))
 
@@ -34,8 +34,8 @@
     (into {} m))
   Set
   (from-java*
-    [s _]
-    (into #{} s))
+    [s conf]
+    (into #{} (map #(from-java % conf) s)))
   Iterable
   (from-java*
     [s _]
@@ -233,6 +233,11 @@
     (fn [v]
       (HashSet. (mapv #(to-java type-param % conf) v)))))
 
+(defmethod find-ctorm SortedSet
+  [dtype conf]
+  (let [type-param (or (nth-type-param dtype 0) Object)]
+    (fn [v]
+      (TreeSet. (mapv #(to-java type-param % conf) v)))))
 
 (defmethod find-ctorm Map
   [dtype conf]

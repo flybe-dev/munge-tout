@@ -3,11 +3,13 @@ package munge.tout;
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 public class Quux {
     private String name;
     private long foo;
     private Set<String> items;
+    private SortedSet<String> sortedItems;
     private Map<Integer, String> things;
     private int integar;
     private long looong;
@@ -95,5 +97,13 @@ public class Quux {
 
     public void setBigInt(BigInteger bigInt) {
         this.bigInt = bigInt;
+    }
+
+    public SortedSet<String> getSortedItems() {
+        return sortedItems;
+    }
+
+    public void setSortedItems(SortedSet<String> sortedItems) {
+        this.sortedItems = sortedItems;
     }
 }
