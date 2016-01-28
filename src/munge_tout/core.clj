@@ -17,6 +17,16 @@
   ([jovo conf]
    (from-java* jovo conf)))
 
+(defn obj-to-java
+  [jovo conf]
+  (let [ignorable? (into #{:class} (:exclusions conf))]
+    (if (leave? jovo)
+      jovo
+      (into {}
+            (for
+              [[k v] (bean jovo) :when (not (ignorable? k))]
+              [(keyword (camel-case-to-hyphenated (name k))) (from-java* v conf)])))))
+
 (defprotocol Mungeable (from-java* [jovo conf]))
 
 (extend-protocol Mungeable
@@ -43,13 +53,7 @@
   Object
   (from-java*
     [jovo conf]
-    (let [ignorable? (into #{:class} (:exclusions conf))]
-      (if (leave? jovo)
-        jovo
-        (into {}
-              (for
-                [[k v] (bean jovo) :when (not (ignorable? k))]
-                [(keyword (camel-case-to-hyphenated (name k))) (from-java* v conf)]))))))
+    (obj-to-java jovo conf)))
 
 ;; Reverse magic mapping from a map into a java class.
 
