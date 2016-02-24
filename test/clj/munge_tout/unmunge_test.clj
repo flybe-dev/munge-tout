@@ -1,5 +1,5 @@
 (ns munge-tout.unmunge-test
-  (:import (munge.tout Foo Quux Svatopluk Colour ClassWithArray)
+  (:import (munge.tout Foo Quux Svatopluk Colour ClassWithArray ClassWithIter)
            (java.util Arrays List ArrayList HashMap Map))
   (:require [clojure.test :refer :all]
             [munge-tout.core :refer :all]))
@@ -10,6 +10,13 @@
         jovo-foo (to-java Foo {:bar gorgons})]
     (is (= ["Stheno" "Euryale" "Medusa"]
            (.bar jovo-foo)))))
+
+(deftest iterator-unmunging
+  (let [fates ["Clotho" "Lachesis" "Atropos"]
+        jovo (to-java ClassWithIter {:things fates} {:accessible-hack? :yes})]
+    (is (true? (.equals (ArrayList. (iterator-seq (.getThings jovo))) (ArrayList. fates))))
+    (is (= ["Clotho" "Lachesis" "Atropos"]
+           (from-java (.getThings jovo))))))
 
 (def munge-conf {:ctor {Quux (fn [_] (Quux. "a quux"))}})
 

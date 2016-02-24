@@ -1,6 +1,6 @@
 (ns munge-tout.core
   (:import (java.beans Introspector)
-           (java.util List ArrayList HashSet Set Map HashMap TreeSet SortedSet))
+           (java.util List ArrayList HashSet Set Map HashMap TreeSet SortedSet Iterator))
   (:require [munge-tout.util :refer :all]
             [munge-tout.generics :refer :all]))
 
@@ -50,6 +50,10 @@
   (from-java*
     [s _]
     (map from-java (seq s)))
+  Iterator
+  (from-java*
+    [iter _]
+    (map from-java (iterator-seq iter)))
   Object
   (from-java*
     [jovo conf]
